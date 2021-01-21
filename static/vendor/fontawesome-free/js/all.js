@@ -2816,8 +2816,8 @@
       tag: 'rect',
       attributes: _objectSpread({
         fill: 'currentColor',
-        'clip-path': "url(#".concat(clipId, ")"),
-        mask: "url(#".concat(maskId, ")")
+        'clip-path': "url1(#".concat(clipId, ")"),
+        mask: "url1(#".concat(maskId, ")")
       }, ALL_SPACE)
     });
     return {

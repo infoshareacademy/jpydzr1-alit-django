@@ -9369,7 +9369,7 @@ jQuery.extend( {
 	// Main method
 	ajax: function( url, options ) {
 
-		// If url is an object, simulate pre-1.5 signature
+		// If url1 is an object, simulate pre-1.5 signature
 		if ( typeof url === "object" ) {
 			options = url;
 			url = undefined;
@@ -9402,7 +9402,7 @@ jQuery.extend( {
 			// Loop variable
 			i,
 
-			// uncached part of the url
+			// uncached part of the url1
 			uncached,
 
 			// Create the final options object
@@ -9509,8 +9509,8 @@ jQuery.extend( {
 		deferred.promise( jqXHR );
 
 		// Add protocol if not provided (prefilters might expect it)
-		// Handle falsy url in the settings object (#10093: consistency with old signature)
-		// We also use the url parameter if available
+		// Handle falsy url1 in the settings object (#10093: consistency with old signature)
+		// We also use the url1 parameter if available
 		s.url = ( ( url || s.url || location.href ) + "" )
 			.replace( rprotocol, location.protocol + "//" );
 
@@ -9525,13 +9525,13 @@ jQuery.extend( {
 			urlAnchor = document.createElement( "a" );
 
 			// Support: IE <=8 - 11, Edge 12 - 15
-			// IE throws exception on accessing the href property if url is malformed,
+			// IE throws exception on accessing the href property if url1 is malformed,
 			// e.g. http://example.com:80x/
 			try {
 				urlAnchor.href = s.url;
 
 				// Support: IE <=8 - 11 only
-				// Anchor's host property isn't correctly set when s.url is relative
+				// Anchor's host property isn't correctly set when s.url1 is relative
 				urlAnchor.href = urlAnchor.href;
 				s.crossDomain = originAnchor.protocol + "//" + originAnchor.host !==
 					urlAnchor.protocol + "//" + urlAnchor.host;
@@ -9573,7 +9573,7 @@ jQuery.extend( {
 
 		// Save the URL in case we're toying with the If-Modified-Since
 		// and/or If-None-Match header later on
-		// Remove hash to simplify url manipulation
+		// Remove hash to simplify url1 manipulation
 		cacheURL = s.url.replace( rhash, "" );
 
 		// More options handling for requests with no content
@@ -9582,7 +9582,7 @@ jQuery.extend( {
 			// Remember the hash so we can put it back
 			uncached = s.url.slice( cacheURL.length );
 
-			// If data is available and should be processed, append data to url
+			// If data is available and should be processed, append data to url1
 			if ( s.data && ( s.processData || typeof s.data === "string" ) ) {
 				cacheURL += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data;
 
@@ -9832,7 +9832,7 @@ jQuery.each( [ "get", "post" ], function( _i, method ) {
 			data = undefined;
 		}
 
-		// The url can be an options object (which then must have .url)
+		// The url1 can be an options object (which then must have .url1)
 		return jQuery.ajax( jQuery.extend( {
 			url: url,
 			type: method,
@@ -10219,7 +10219,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 			s.jsonpCallback() :
 			s.jsonpCallback;
 
-		// Insert callback into url or form data
+		// Insert callback into url1 or form data
 		if ( jsonProp ) {
 			s[ jsonProp ] = s[ jsonProp ].replace( rjsonp, "$1" + callbackName );
 		} else if ( s.jsonp !== false ) {
@@ -10345,7 +10345,7 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 
 
 /**
- * Load a url into a page
+ * Load a url1 into a page
  */
 jQuery.fn.load = function( url, params, callback ) {
 	var selector, type, response,

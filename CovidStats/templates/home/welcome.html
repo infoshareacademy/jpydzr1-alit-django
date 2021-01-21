@@ -2,5 +2,13 @@
 {% load static %}
 {% block content %}
 <h1>Home Page</h1>
-
+    <form method="POST" action="cases/">{% csrf_token %}
+    <select name = "country" id="country">
+        <option value="Poland" >Poland</option>
+        <option value="Spain" >Spain</option>
+        <option value="Italy" >Italy</option>
+        <option value="Greece" >Greece</option>
+    </select>
+        <input type="submit"  value="country" />
+    </form>
 {% endblock %}

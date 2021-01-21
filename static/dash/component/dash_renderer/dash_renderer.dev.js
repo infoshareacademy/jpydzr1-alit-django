@@ -1430,7 +1430,7 @@ var createDict = function () {
   var iframeDocument;
   iframe.style.display = 'none';
   __webpack_require__(/*! ./_html */ "./node_modules/babel-runtime/node_modules/core-js/library/modules/_html.js").appendChild(iframe);
-  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+  iframe.src = 'javascript:'; // eslint-disable-line no-script-url1
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
   iframeDocument = iframe.contentWindow.document;
@@ -24928,7 +24928,7 @@ var styfn$6 = {};
     return '^' + prefix + '\\s*\\(([\\w\\.]+)\\s*\\,\\s*(' + number + ')\\s*\\,\\s*(' + number + ')\\s*,\\s*(' + mapArg + ')\\s*\\,\\s*(' + mapArg + ')\\)$';
   };
 
-  var urlRegexes = ['^url\\s*\\(\\s*[\'"]?(.+?)[\'"]?\\s*\\)$', '^(none)$', '^(.+)$']; // each visual style property has a type and needs to be validated according to it
+  var urlRegexes = ['^url1\\s*\\(\\s*[\'"]?(.+?)[\'"]?\\s*\\)$', '^(none)$', '^(.+)$']; // each visual style property has a type and needs to be validated according to it
 
   styfn$6.types = {
     time: {

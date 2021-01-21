@@ -5282,13 +5282,13 @@ S2.define('select2/options',[
     if (Utils.GetData($e[0], 'ajaxUrl')) {
       if (this.options.debug && window.console && console.warn) {
         console.warn(
-          'Select2: The `data-ajax-url` attribute has been changed to ' +
-          '`data-ajax--url` and support for the old attribute will be removed' +
+          'Select2: The `data-ajax-url1` attribute has been changed to ' +
+          '`data-ajax--url1` and support for the old attribute will be removed' +
           ' in future versions of Select2.'
         );
       }
 
-      $e.attr('ajax--url', Utils.GetData($e[0], 'ajaxUrl'));
+      $e.attr('ajax--url1', Utils.GetData($e[0], 'ajaxUrl'));
       Utils.StoreData($e[0], 'ajax-Url', Utils.GetData($e[0], 'ajaxUrl'));
     }
 
