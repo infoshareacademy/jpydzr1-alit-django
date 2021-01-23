@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block date_top %}{{ date_top }}{% endblock %}
+{% block date_end %}{{ date_end }}{% endblock %}
+{% block content %}
+            <p>Trwa pobieranie danych z internetu...</p>
+            <progress id="api_progress" value="32" max="100"></progress>
+{% endblock %}

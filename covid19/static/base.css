@@ -1,0 +1,106 @@
+html {
+    background-color: #fff;
+    color: #000;
+    margin: 0px;
+    padding: 0px;
+}
+body {
+   font: 20px Arial;
+   margin: 0px auto;
+   padding: 0px;
+   display: block;
+   width: 1004px;
+   overflow: auto;
+}
+#header {
+   width: 100%;
+   float: left;
+   background-color: #888;
+   text-align: center;
+   padding: 10px 0px 10px;
+}
+#nav {
+   width: 242px;
+   float: left;
+   overflow: hidden;
+   background-color: #ccc;
+   padding: 10px 10px 10px 10px;;
+}
+#settings {
+   margin-top: 10px;
+   margin-bottom: 100px;
+}
+#settings label {
+   font: 13px Arial;
+   margin-left: 10px;
+}
+#settings .date {
+   font: 12px Arial;
+   float: right;
+   margin-right: 15px;
+}
+#settings select {
+   display: block;
+   float: left;
+   width: 90%;
+   margin: 6px 10px 0px;
+}
+#nav a {
+   display: block;
+   float: left;
+   width: 83%;
+   margin: 6px 10px 1px;
+}
+#content {
+   font: 15px Arial;
+   width: 700px;
+   float: left;
+   overflow: hidden;
+   background-color: #fff;
+   padding: 0px 20px 0px;
+}
+#footer {
+   clear: both;
+   width: 100%;
+   background-color: #888;
+   font: 10px Arial;
+   text-align: center;
+   padding: 5px 0px 5px;
+}
+.button {
+   font: 15px bold Arial;
+   text-decoration: none;
+   text-align: center;
+   background-color: #EEEEEE;
+   color: #333333;
+   border-top: 1px solid #CCCCCC;
+   border-right: 1px solid #333333;
+   border-bottom: 1px solid #333333;
+   border-left: 1px solid #CCCCCC;
+   padding: 4px 8px 4px 8px;
+}
+.button:hover {
+   background-color: #888;
+}
+.button_api {
+   color: blue;
+}
+img {
+   position: relative;
+   width: 15%;
+   height:auto;
+   margin-top: 0px;
+   margin-left: 575px;
+   margin-bottom: 8px;
+}
+#api_progress {
+   width: 100%;
+}
+#covid {
+   font: 14px bold Arial;
+   background-color: #EEEEEE;
+}
+#covid td {
+   padding: 1px;
+   text-align: right;
+}
