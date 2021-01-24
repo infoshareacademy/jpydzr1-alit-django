@@ -14,10 +14,10 @@
             {% for item in covid %}
             <tr>
                 <td>{{ item.date }} / {{ item.country }}</td>
-	            <td>{{ item.confirmed }}</td>
-	            <td>{{ item.deaths }}</td>
-	            <td>{{ item.recovered }}</td>
-	            <td>{{ item.active}}</td>
+	            <td class="td_num">{{ item.confirmed }}</td>
+	            <td class="td_num">{{ item.deaths }}</td>
+	            <td class="td_num">{{ item.recovered }}</td>
+	            <td class="td_num">{{ item.active }}</td>
             </tr>
             {% endfor %}
             </table>

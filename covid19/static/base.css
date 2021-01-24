@@ -52,12 +52,13 @@ body {
    margin: 6px 10px 1px;
 }
 #content {
-   font: 15px Arial;
+   font: 14px Arial;
    width: 700px;
    float: left;
    overflow: hidden;
    background-color: #fff;
    padding: 0px 20px 0px;
+   margin-bottom: 10px;
 }
 #footer {
    clear: both;
@@ -86,21 +87,36 @@ body {
    color: blue;
 }
 img {
-   position: relative;
-   width: 15%;
+   position: absolute;
+   width: 10%;
    height:auto;
-   margin-top: 0px;
-   margin-left: 575px;
-   margin-bottom: 8px;
+   margin-top: -55px;
+   margin-left: 0px;
+}
+#overlay {
+   background-color: white;
+   position: absolute;
+   top: 0;
+   left: 0;
+   height: 100%;
+   width: 100%;
+   z-index: 998;
+   opacity: 0;
 }
 #api_progress {
-   width: 100%;
+   position: absolute;
+   margin: -40px 382px;
+   width: 500px;
+   z-index: 999;
 }
-#covid {
-   font: 14px bold Arial;
+
+
+table {
+   font: 12px Arial;
+}
+tr:hover {
    background-color: #EEEEEE;
 }
-#covid td {
-   padding: 1px;
+.td_num {
    text-align: right;
 }

@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
-from django.db.models import Value, CharField, Case, When
+from django.db.models import Value, CharField, Case, When, Q
 from django.shortcuts import render
 from .models import *
-from .api import covidToDb
+from . import api
 
 
 def settings(request):
@@ -10,9 +10,9 @@ def settings(request):
     key2 = "date_end"
     key3 = "continent"
     key4 = "country"
-    key5 = "range"
-    key6 = "covid"
+    key5 = "covid"
 
+    # App memory status
     if request.POST:
         body = request.body.decode('utf-8')
         if len(body) > 0:
@@ -35,18 +35,34 @@ def settings(request):
             request.session[key3] = "0"
             request.session[key4] = "0"
 
+    # Continent list
     continents = Continent.objects.annotate(
         selected=Case(When(id=request.session[key3], then=Value("selected")),
                       default=Value(""), output_field=CharField())).all().order_by(key3)
+
+    # Country list
     countries = Country.objects.annotate(
         selected=Case(When(id=request.session[key4], then=Value("selected")),
                       default=Value(""), output_field=CharField())).all().order_by(key4)
-    covid = CovidApi.objects.all()
 
-    r_user = [request.session[key1], request.session[key2], request.session[key3], request.session[key4]]
+    # Covid19 one country
+    if request.session[key4] != "0" and request.session[key3] == "0":
+        covid = CovidApi.objects.filter(Q(country_id=request.session[key4])
+                                        & Q(date__gte=request.session[key1])
+                                        & Q(date__lte=request.session[key2])).order_by('-date')
+
+    # Covid19 one continent
+    if request.session[key3] != "0" and request.session[key4] == "0":
+        covid = None
+
+    # Covid19 all countries
+    if request.session[key3] == "0" and request.session[key4] == "0":
+        covid = CovidApi.objects.filter(Q(date__gte=request.session[key1])
+                                      & Q(date__lte=request.session[key2])).order_by('-date')
 
     x = {key1: request.session[key1], key2: request.session[key2], key3: continents,
-         key4: countries, key5: r_user, key6: covid}
+         key4: countries, key5: covid}
+
     return x
 
 
@@ -57,14 +73,6 @@ def index(request):
 
 def login(request):
     x = settings(request)
-
-    # Example, the login panel is available only when "Wszystkie kontynenty" and "Wszystkie kraje" is selected,
-    # 0 - date top,
-    # 1 - date end,
-    # 2 - id continent ("0" - not selected, all continents),
-    # 3 - id country ("0" - not selected, all countries).
-    if x["range"][2] != "0" or x["range"][3] != "0":
-        return render(request, "index.html", x)
     return render(request, "login.html", x)
 
 
@@ -125,4 +133,6 @@ def incidenceRate(request):
 
 def loadData(request):
     x = settings(request)
-    return render(request, "loadData.html", x)
+    y = api.CovidToDb()
+    y.runApiToDb()
+    return render(request, "index.html", x)

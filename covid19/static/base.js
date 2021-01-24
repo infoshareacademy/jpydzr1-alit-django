@@ -37,3 +37,6 @@ $("#country").change(function () {
         data: { country: $(this).val() }
     });
 });
+$(".button_api").click(function() {
+    $("body").append('<div id="overlay"></div><progress id="api_progress" value="44" max="100"></progress>');
+});

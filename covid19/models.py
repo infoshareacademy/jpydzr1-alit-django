@@ -15,7 +15,7 @@ class Country(models.Model):
     continent = models.ForeignKey(Continent, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.country} - {self.continent}"
+        return self.country
 
 
 class CovidApi(models.Model):
