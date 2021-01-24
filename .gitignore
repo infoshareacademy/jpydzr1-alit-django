@@ -1,0 +1,8 @@
+/.venv
+/venv
+/.idea
+/idea
+/alit/__pycache__
+/covid19/__pycache__
+/covid19/migrations/__pycache__
+db.sqlite3
