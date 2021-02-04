@@ -11,7 +11,7 @@ class Country(models.Model):
         ordering = ['Country']
 
     def __str__(self):
-        return self.country
+        return self.Country
 
 
 class CovidDataSet(models.Model):
