@@ -3,14 +3,15 @@
 {% block date_end %}{{ date_end }}{% endblock %}
 {% block content %}
             <p>Daily Recovered Smooth</p>
+            <div class="col-md-12">{{plot|safe}}</div>
             <table id="covid">
             <tr>
-                <th>Date / Country</th>
+                <th>Date</th>
 	            <th>Daily Recovered Smooth</th>
             </tr>
             {% for item in covid %}
             <tr>
-                <td>{{ item.date }} / {{ item.country }}</td>
+                <td>{{ item.date }}</td>
 	            <td class="td_num">{{ item.dailyRecoveredSmooth }}</td>
             </tr>
             {% endfor %}

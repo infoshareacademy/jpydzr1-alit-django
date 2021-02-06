@@ -5,9 +5,11 @@ from django_pandas.io import read_frame
 from .datagathering import NewDataFrame
 from .models import *
 from . import api
-import plotly.graph_objects as go
+import plotly.offline as py
+import plotly.graph_objs as go
 import numpy as np
-import plotly as py
+import pandas as pd
+
 
 
 
@@ -17,6 +19,7 @@ def siteSettings(request, what_type=None):
     set_continent = "continent"
     set_country = "country"
     data = "covid"
+    plot_div = "plot"
 
 
     # App memory status
@@ -52,6 +55,7 @@ def siteSettings(request, what_type=None):
         selected=Case(When(id=request.session[set_country], then=Value("selected")),
                       default=Value(""), output_field=CharField())).all().order_by(set_country)
 
+    covid = CovidCalc.objects.all()
     # Covid19 one country
     if request.session[set_country] != "0" and request.session[set_continent] == "0":
         if what_type == 'dC':
@@ -107,16 +111,14 @@ def siteSettings(request, what_type=None):
                                               & Q(date__gte=request.session[set_date_top])
                                               & Q(date__lte=request.session[set_date_end]))\
                                               .order_by('date')
-        elif what_type == 'iR':
+        else:
             covid = CovidCalc.objects.values('date', 'country', 'incidenceRate')\
                                               .filter(Q(country_id=request.session[set_country])
                                               & Q(date__gte=request.session[set_date_top])
                                               & Q(date__lte=request.session[set_date_end]))\
                                               .order_by('date')
-        else:
-            covid = CovidApi.objects.filter(Q(country_id=request.session[set_country])
-                                        & Q(date__gte=request.session[set_date_top])
-                                        & Q(date__lte=request.session[set_date_end])).order_by('date')
+    df = read_frame(covid)
+    plot = examplePlot(df)
 
 
 
@@ -131,9 +133,7 @@ def siteSettings(request, what_type=None):
                                       & Q(date__lte=request.session[set_date_end])).order_by('-date')
 
     return_data = {set_date_top: request.session[set_date_top], set_date_end: request.session[set_date_end],
-                   set_continent: continents, set_country: countries, data: covid}
-
-
+                   set_continent: continents, set_country: countries, data: covid, plot_div: plot}
     return return_data
 
 
@@ -209,11 +209,7 @@ def caseFatality(request):
 
 def incidenceRate(request):
     case = 'iR'
-    #plot = examplePlot()
     data = siteSettings(request, case)
-    df = read_frame(data['covid'])
-    print(df)
-    print(type(df))
     return render(request, "incidenceRate.html", data)
 
 
@@ -227,34 +223,57 @@ def loadData(request):
         baza.set_last_date(last_date['date'])
         baza.calculate_data()
         baza.writetodb()
-
     return render(request, "index.html", data)
 
-# def examplePlot():
-#     x = np.linspace(0, 12.56, 41)
-#     y = np.sin(x)
-#     y2 = np.sin(1.2 * x)
-#     data = [
-#         go.Scatter(
-#             name='Sin(x)',
-#             x=x,
-#             y=y,
-#         ),
-#         go.Scatter(
-#             name='Sin(1.2x)',
-#             x=x,
-#             y=y2,
-#         ),
-#     ]
-#     layout = go.Layout(
-#         xaxis=dict(
-#             title='x'
-#         ),
-#         yaxis=dict(
-#             title='Value',
-#             hoverformat='.2f'
-#         ),
-#     )
-#     fig = go.Figure(data=data, layout=layout)
-#     plot_div = py.plot(fig, include_plotlyjs=False, output_type='div')
-#     return plot_div
+
+updatemenusAxis = list([
+    dict(active=1,
+         buttons=list([
+             dict(label='Log',
+                  method='update',
+                  args=[{'visible': [True, True]},
+                        {'yaxis': {'type': 'log', 'title': 'Cases', 'fixedrange': False},
+                         }]),
+             dict(label='Linear',
+                  method='update',
+                  args=[{'visible': [True, True]},
+                        {'yaxis': {'type': 'linear', 'title': 'Cases', 'fixedrange': False},
+                         }])
+         ]), type="buttons",
+         direction="left",
+         pad={"r": 2, "t": 2},
+         x=0.5,
+         xanchor="left",
+         y=1.15,
+         yanchor="top",
+         )
+])
+def examplePlot(data):
+    filtered_df = data
+    data = [
+        go.Bar(
+            name=filtered_df.columns[2],
+            x=filtered_df[filtered_df.columns[0]],
+            y=filtered_df[filtered_df.columns[2]],
+        ),
+    ]
+    layout = go.Layout(
+        xaxis=dict(
+            title='Date',
+            rangeslider=dict(
+                visible=True
+            )
+        ),
+        yaxis=dict(
+            title='Cases',
+            hoverformat='.2f',
+            type='linear',
+            fixedrange=False
+        ),
+        autosize=True,
+        updatemenus=updatemenusAxis,
+        legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), showlegend=True,
+    )
+    fig = go.Figure(data=data, layout=layout)
+    plot_div = py.plot(fig, include_plotlyjs=False, output_type='div')
+    return plot_div

@@ -4,6 +4,7 @@
         <meta charset="pl-PL">
         <link rel="stylesheet" href="{% static 'base.css' %}" type="text/css" />
         <title>ALIT Covid19</title>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     </head>
     <body>
         <div id="header">Statystyki COVID-19<a href="/"></div>
@@ -42,6 +43,8 @@
         </div>
         <div id="content">
              {% block content %}
+             <div class="col-md-12">{{plot|safe}}</div>
+             {{ plot | safe}}
              {% endblock %}
         </div>
         <div id="footer">(C)2021 ALIT - Powered by Python & Django Framework</div>
