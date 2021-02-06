@@ -7,10 +7,22 @@ from .models import Continent, Country, CovidApi, CovidCalc
 class AdminContinent(admin.ModelAdmin):
     fields = ('continent',)
 
+    def has_add_permission(self, request):
+        return False
+
+    def get_model_perms(self, request):
+        return {'view': True}
+
 
 @admin.register(Country)
 class AdminCountry(admin.ModelAdmin):
     fields = ('country', 'iso2', 'population', 'continent')
+
+    def has_add_permission(self, request):
+        return False
+
+    def get_model_perms(self, request):
+        return {'view': True}
 
 
 @admin.register(CovidApi)

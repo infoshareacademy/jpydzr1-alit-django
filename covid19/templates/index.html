@@ -4,8 +4,11 @@
 {% block content %}
             <p><b>COVID-19</b> (od ang. Coronavirus Disease 2019), to ostra choroba zakaźna układu oddechowego wywołana zakażeniem wirusem <b>SARS-CoV-2</b>.<br/> Została po raz pierwszy rozpoznana i opisana w listopadzie 2019 roku, w środkowych Chinach (miasto Wuhan, w prowincji Hubei), podczas serii zachorowań zapoczątkowującej światową pandemię tej choroby.</p>
             <p>Aby pobrać <b>aktualne dane z internetu</b>, wciśnij przycisk "Aktualizacja danych" (pierwsze uruchomienie może trochę potrwać). Następnie wybierz zakres dat <b>(tylko zalogowani użytkownicy)</b>, kontynent lub kraj, kliknij wybrane dane statystyczne, a zobaczysz w przystepnej formie dane o tej chorobie.</p>
-            <form action="/login">
+            <form action="/accounts/login">
                 {% csrf_token %}
+                {% if not user.is_authenticated %}
                 <input type="submit" value="Panel logowania" />
+                {% endif %}
             </form>
 {% endblock %}
+

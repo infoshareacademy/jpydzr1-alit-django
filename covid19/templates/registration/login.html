@@ -2,7 +2,10 @@
 {% block date_top %}{{ date_top }}{% endblock %}
 {% block date_end %}{{ date_end }}{% endblock %}
 {% block content %}
-            <p>Panel logowania:</p>
+            <h2>Podaj dane do logowania:</h2>
+            <form method="post">
+            {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Log In</button>
+            <button type="submit">Zaloguj</button>
+            </form>
 {% endblock %}

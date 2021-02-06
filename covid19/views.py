@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from django.db.models import Value, CharField, Case, When, Q
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django_pandas.io import read_frame
 from .datagathering import NewDataFrame
@@ -9,8 +10,6 @@ import plotly.offline as py
 import plotly.graph_objs as go
 import numpy as np
 import pandas as pd
-
-
 
 
 def siteSettings(request, what_type=None):
@@ -144,81 +143,93 @@ def index(request):
 
 def login(request):
     data = siteSettings(request)
-    return render(request, "login.html", data)
+    return render(request, "registration/login.html", data)
 
 
+@login_required(redirect_field_name='/')
 def dailyCases(request):
     case = 'dC'
     data = siteSettings(request, case)
     return render(request, "dailyCases.html", data)
 
 
+@login_required(redirect_field_name='/')
 def dailyRecovered(request):
     case = 'dR'
     data = siteSettings(request, case)
     return render(request, "dailyRecovered.html", data)
 
 
+@login_required(redirect_field_name='/')
 def dailyDeaths(request):
     case = 'dD'
     data = siteSettings(request, case)
     return render(request, "dailyDeaths.html", data)
 
 
+@login_required(redirect_field_name='/')
 def activeCases(request):
     case = 'aC'
     data = siteSettings(request, case)
     return render(request, "activeCases.html", data)
 
 
+@login_required(redirect_field_name='/')
 def activeCasesPer100k(request):
     case = 'aCp100'
     data = siteSettings(request, case)
     return render(request, "activeCasesPer100k.html", data)
 
 
+@login_required(redirect_field_name='/')
 def dailyCasesSmooth(request):
     case = 'dCS'
     data = siteSettings(request, case)
     return render(request, "dailyCasesSmooth.html", data)
 
 
+@login_required(redirect_field_name='/')
 def dailyRecoveredSmooth(request):
     case = 'dRS'
     data = siteSettings(request, case)
     return render(request, "dailyRecoveredSmooth.html", data)
 
 
+@login_required(redirect_field_name='/')
 def dailyDeathsSmooth(request):
     case = 'dDS'
     data = siteSettings(request, case)
     return render(request, "dailyDeathsSmooth.html", data)
 
 
+@login_required(redirect_field_name='/')
 def mortality(request):
     case = 'm'
     data = siteSettings(request, case)
     return render(request, "mortality.html", data)
 
 
+@login_required(redirect_field_name='/')
 def caseFatality(request):
     case = 'cF'
     data = siteSettings(request, case)
     return render(request, "caseFatality.html", data)
 
 
+@login_required(redirect_field_name='/')
 def incidenceRate(request):
     case = 'iR'
     data = siteSettings(request, case)
     return render(request, "incidenceRate.html", data)
 
 
+@login_required(redirect_field_name='/')
 def loadData(request):
     data = siteSettings(request)
     last_date = CovidApi.objects.values('date').last()
     if (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d") > last_date['date']:
-        #app = api.CovidToDb()
-        #app.runApiToDb()
+        app = api.CovidToDb()
+        app.runApiToDb()
         baza = NewDataFrame()
         baza.set_last_date(last_date['date'])
         baza.calculate_data()
@@ -252,7 +263,7 @@ def examplePlot(data):
     filtered_df = data
     data = [
         go.Bar(
-            name=filtered_df.columns[2],
+            name='dane',
             x=filtered_df[filtered_df.columns[0]],
             y=filtered_df[filtered_df.columns[2]],
         ),
