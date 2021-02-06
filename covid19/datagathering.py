@@ -9,8 +9,11 @@ pd.set_option('use_inf_as_na', True)
 
 class NewDataFrame:
     def __init__(self):
-        self.qs = CovidApi.objects.select_related('country').all()
-        #self.qs = CovidApi.objects.select_related('country').filter(date='2020-01-22')
+        self.last_date = '2020-01-22'
+        self.dfComplete = 0
+
+    def calculate_data(self):
+        self.qs = CovidApi.objects.select_related('country').filter(date__gt=self.last_date)
         population = []
         for q in self.qs:
             population.append(q.country.population)
@@ -44,11 +47,9 @@ class NewDataFrame:
         self.dfComplete['Daily_deaths'] = self.dfComplete['Daily_deaths'].astype('int32')
         columns = ['id', 'confirmed', 'deaths', 'recovered', 'active', 'population']
         self.dfComplete = self.dfComplete.drop(columns, axis=1)
-        #print(self.dfComplete.columns)
 
     def writetodb(self):
         qs = Country.objects.all()
-        #CovidCalc.objects.all().delete()
         for dfrow in self.dfComplete.itertuples():
             try:
                 #print(dfrow)
@@ -85,6 +86,10 @@ class NewDataFrame:
 
     def df_info(self):
         return self.dfComplete.info(verbose=True)
+
+    def set_last_date(self, date):
+        self.last_date = date
+
 
 
 # class ExcessMort:

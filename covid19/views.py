@@ -1,10 +1,13 @@
 from datetime import datetime, timedelta
 from django.db.models import Value, CharField, Case, When, Q
 from django.shortcuts import render
-
+from django_pandas.io import read_frame
 from .datagathering import NewDataFrame
 from .models import *
 from . import api
+import plotly.graph_objects as go
+import numpy as np
+import plotly as py
 
 
 
@@ -28,7 +31,6 @@ def siteSettings(request, what_type=None):
                 request.session[set_continent] = body[10:]
                 request.session[set_country] = "0"
             if body[0:7] == set_country:
-                print(body)
                 request.session[set_country] = body[8:]
                 request.session[set_continent] = "0"
     else:
@@ -116,7 +118,7 @@ def siteSettings(request, what_type=None):
                                         & Q(date__gte=request.session[set_date_top])
                                         & Q(date__lte=request.session[set_date_end])).order_by('date')
 
-        #print(covid)
+
 
 
     # Covid one continent
@@ -130,7 +132,7 @@ def siteSettings(request, what_type=None):
 
     return_data = {set_date_top: request.session[set_date_top], set_date_end: request.session[set_date_end],
                    set_continent: continents, set_country: countries, data: covid}
-    #print(return_data.covid)
+
 
     return return_data
 
@@ -207,16 +209,25 @@ def caseFatality(request):
 
 def incidenceRate(request):
     case = 'iR'
+    #plot = examplePlot()
     data = siteSettings(request, case)
+    df = read_frame(data['covid'])
+    print(df)
+    print(type(df))
     return render(request, "incidenceRate.html", data)
 
 
 def loadData(request):
     data = siteSettings(request)
-    #app = api.CovidToDb()
-    #app.runApiToDb()
-    #baza = NewDataFrame()
-    #baza.writetodb()
+    last_date = CovidApi.objects.values('date').last()
+    if (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d") > last_date['date']:
+        #app = api.CovidToDb()
+        #app.runApiToDb()
+        baza = NewDataFrame()
+        baza.set_last_date(last_date['date'])
+        baza.calculate_data()
+        baza.writetodb()
+
     return render(request, "index.html", data)
 
 # def examplePlot():

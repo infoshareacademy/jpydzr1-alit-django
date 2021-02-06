@@ -25,15 +25,12 @@ class CovidToDb():
         if len(self.listCountries) > 0:
             with connection.cursor() as cursor:
                 qs = CovidApi.objects.order_by("-date")[:1]
-                print(qs)
-                print(len(qs))
                 if len(qs) > 0:
                     self.dateTop = qs[0].date
                     print(self.dateTop)
                 else:
                     self.dateTop = "2020-01-22"
-                #self.dateEnd = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y=%m-%d")
-                self.dateEnd = '2021-02-05'
+                self.dateEnd = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
                 if self.dateTop > self.dateEnd:
                     self.dateTop = self.dateEnd
                 countries = Country.objects.all().order_by("country")

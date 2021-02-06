@@ -1,5 +1,5 @@
 $.ajaxSetup({
-    url: editionUrl,
+    url: "http://127.0.0.1:8000/settings/",
     headers: { 'X-CSRFToken':  $("#token").val() },
     type: 'post',
     dataType: 'text',
