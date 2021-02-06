@@ -2,5 +2,17 @@
 {% block date_top %}{{ date_top }}{% endblock %}
 {% block date_end %}{{ date_end }}{% endblock %}
 {% block content %}
-            <p>dailyDeathsSmooth</p>
+            <p>Daily Deaths Smooth</p>
+            <table id="covid">
+            <tr>
+                <th>Date / Country</th>
+	            <th>Daily Deaths Smooth</th>
+            </tr>
+            {% for item in covid %}
+            <tr>
+                <td>{{ item.date }} / {{ item.country }}</td>
+	            <td class="td_num">{{ item.dailyDeathsSmooth }}</td>
+            </tr>
+            {% endfor %}
+            </table>
 {% endblock %}

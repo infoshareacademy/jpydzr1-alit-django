@@ -2,22 +2,16 @@
 {% block date_top %}{{ date_top }}{% endblock %}
 {% block date_end %}{{ date_end }}{% endblock %}
 {% block content %}
-            <p>dailyCases</p>
+            <p>Daily Cases</p>
             <table id="covid">
             <tr>
                 <th>Date / Country</th>
-	            <th>Confirmed</th>
-	            <th>Deaths</th>
-	            <th>Recovered</th>
-	            <th>Active</th>
+	            <th>Daily Cases</th>
             </tr>
             {% for item in covid %}
             <tr>
                 <td>{{ item.date }} / {{ item.country }}</td>
-	            <td class="td_num">{{ item.confirmed }}</td>
-	            <td class="td_num">{{ item.deaths }}</td>
-	            <td class="td_num">{{ item.recovered }}</td>
-	            <td class="td_num">{{ item.active }}</td>
+	            <td class="td_num">{{ item.dailyCases }}</td>
             </tr>
             {% endfor %}
             </table>

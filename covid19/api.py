@@ -25,18 +25,24 @@ class CovidToDb():
         if len(self.listCountries) > 0:
             with connection.cursor() as cursor:
                 qs = CovidApi.objects.order_by("-date")[:1]
+                print(qs)
+                print(len(qs))
                 if len(qs) > 0:
                     self.dateTop = qs[0].date
+                    print(self.dateTop)
                 else:
-                    self.dateTop = "2020-01-01"
-                self.dateEnd = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y=%m-%d")
+                    self.dateTop = "2020-01-22"
+                #self.dateEnd = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y=%m-%d")
+                self.dateEnd = '2021-02-05'
                 if self.dateTop > self.dateEnd:
                     self.dateTop = self.dateEnd
                 countries = Country.objects.all().order_by("country")
                 lastRecord = len(countries)
                 recno = 0
                 for item in countries:
+                    print(item)
                     value = self.countryValue(item.country.lower().replace(" ", "-"))
+                    print(value)
                     if len(value) > 0:
                         cursor.execute(f"DELETE FROM covid19_covidapi WHERE country_id = {item.id} "
                                        f"and date >= '{self.dateTop}' and date <= '{self.dateEnd}'")

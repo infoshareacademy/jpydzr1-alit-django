@@ -11,7 +11,7 @@ class Continent(models.Model):
 class Country(models.Model):
     country = models.CharField(max_length=100)
     iso2 = models.CharField(max_length=2)
-    population = models.IntegerField(default=0)
+    population = models.PositiveIntegerField(default=0)
     continent = models.ForeignKey(Continent, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -21,10 +21,10 @@ class Country(models.Model):
 class CovidApi(models.Model):
     date = models.CharField(max_length=10)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
-    confirmed = models.IntegerField(default=0)
-    deaths = models.IntegerField(default=0)
-    recovered = models.IntegerField(default=0)
-    active = models.IntegerField(default=0)
+    confirmed = models.PositiveIntegerField(default=0)
+    deaths = models.PositiveIntegerField(default=0)
+    recovered = models.PositiveIntegerField(default=0)
+    active = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"{self.date} - {self.country}"
@@ -33,10 +33,10 @@ class CovidApi(models.Model):
 class CovidCalc(models.Model):
     date = models.CharField(max_length=10)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
-    dailyCases = models.IntegerField(default=0)
-    dailyRecovered = models.IntegerField(default=0)
-    dailyDeaths = models.IntegerField(default=0)
-    activeCases = models.IntegerField(default=0)
+    dailyCases = models.PositiveIntegerField(default=0)
+    dailyRecovered = models.PositiveIntegerField(default=0)
+    dailyDeaths = models.PositiveIntegerField(default=0)
+    activeCases = models.PositiveIntegerField(default=0)
     activeCasesPer100k = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     dailyCasesSmooth = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     dailyRecoveredSmooth = models.DecimalField(max_digits=10, decimal_places=2, default=0)
