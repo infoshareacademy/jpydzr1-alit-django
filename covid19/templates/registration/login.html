@@ -8,4 +8,8 @@
             {{ form.as_p }}
             <button type="submit">Zaloguj</button>
             </form>
+            <form action="/signup">
+                {% csrf_token %}
+                <input type="submit" value="Panel rejestracji" />
+            </form>
 {% endblock %}

@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from django.db.models import Value, CharField, Case, When, Q
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django_pandas.io import read_frame
 from .datagathering import NewDataFrame
 from .models import *
@@ -10,6 +10,23 @@ import plotly.offline as py
 import plotly.graph_objs as go
 import numpy as np
 import pandas as pd
+
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            return redirect('../accounts/login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
 
 
 def siteSettings(request, what_type=None):
