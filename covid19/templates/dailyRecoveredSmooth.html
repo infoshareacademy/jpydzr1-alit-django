@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block date_top %}{{ date_top }}{% endblock %}
+{% block date_end %}{{ date_end }}{% endblock %}
+{% block content %}
+            <h1>Dziennie uzdrowieni Smooth</h1>
+            <div class="col-md-12">{{plot|safe}}</div>
+            <table id="covid">
+            <tr>
+                <th>Date</th>
+	            <th>Daily Recovered Smooth</th>
+            </tr>
+            {% for item in covid %}
+            <tr>
+                <td>{{ item.date }}</td>
+	            <td class="td_num">{{ item.dailyRecoveredSmooth }}</td>
+            </tr>
+            {% endfor %}
+            </table>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block date_top %}{{ date_top }}{% endblock %}
+{% block date_end %}{{ date_end }}{% endblock %}
+{% block content %}
+            <h2>Podaj dane do logowania:</h2>
+            <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Zaloguj</button>
+            </form>
+            <form action="/signup">
+                {% csrf_token %}
+                <input type="submit" value="Panel rejestracji" />
+            </form>
+{% endblock %}

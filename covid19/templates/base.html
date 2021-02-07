@@ -1,0 +1,52 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="pl-PL">
+        <link rel="stylesheet" href="{% static 'base.css' %}" type="text/css" />
+        <title>ALIT Covid19</title>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+    <body>
+        <div id="header">Statystyki COVID-19<a href="/"></div>
+        <div id="nav">
+             <img src="{% static 'covid-19.png' %}" alt=""></a>
+             <div id="settings">
+                 <label>Zakres dat:</label>
+                 <input type="date" id="top" name="top" class="date" value="{% block date_top %}{% endblock %}">
+                 <input type="date" id="end" name="end" class="date" value="{% block date_end %}{% endblock %}">
+                 <select name="country" id="country">\
+                     <option value="0">Wszystkie kraje</option>
+                     {% for item in country %}
+                     <option value="{{ item.id }}" {{ item.selected }}>{{ item.country }}</option>
+                     {% endfor %}
+                 </select>
+                 <input type="hidden" id="token" value="{{ csrf_token }}">
+             </div>
+             <a href="/dailyCases" class="button"><span>Dzienne zachorowania</span></a>
+             <a href="/dailyRecovered" class="button"><span>Dziennie uzdrowieni</span></a>
+             <a href="/dailyDeaths" class="button"><span>Dzienne zgony</span></a>
+             <a href="/activeCases" class="button"><span>Aktywne przypadki</span></a>
+             <a href="/activeCasesPer100k" class="button">Aktywne przypadki na 100k<span></span></a>
+             <a href="/dailyCasesSmooth" class="button"><span>Dzienne przypadki Smooth</span></a>
+             <a href="/dailyRecoveredSmooth" class="button">Dziennie uzdrowieni Smooth<span></span></a>
+             <a href="/dailyDeathsSmooth" class="button"><span>Dzienne zgony Smooth</span></a>
+             <a href="/caseFatality" class="button"><span>Śmiertelność</span></a>
+             <a href="/incidenceRate" class="button"><span>Zachorowalność</span></a>
+             <a href="/loadData" class="button button_api"><span>Aktualizacja danych</span></a>
+             {% if user.is_authenticated and user.is_superuser %}
+             <a href="/admin" class="button button_api"><span>Panel Admina</span></a>
+             {% endif %}
+             {% if user.is_authenticated %}
+             <a href="{% url 'logout' %}" class="button"><span>Wyloguj</span></a>
+             {% endif %}
+        </div>
+        <div id="content">
+             {% block content %}
+             {% endblock %}
+        </div>
+        <div id="footer">(C)2021 ALIT - Powered by Python & Django Framework</div>
+        <script src="{% static 'jquery-3.5.1.min.js' %}"></script>
+        <script src="{% static 'base.js' %}"></script>
+        <script>const editionUrl= "{% url 'siteSettings' %}"</script>
+    </body>
+</html>
